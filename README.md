@@ -237,34 +237,6 @@ sleep_ms(10);
 
 ---
 
-## Citation
-
-If you use this work in your research, please cite:
-
-```bibtex
-@mastersthesis{bosca2026pmu,
-  author  = {Bosca Candel, Jose Daniel},
-  title   = {Power Management Unit for {RISC-V} {SoC}},
-  school  = {Universitat Politecnica de Valencia},
-  year    = {2026},
-  month   = {April},
-  note    = {NANO Chair, EU PERTE Chip programme},
-  url     = {https://github.com/joboscanprojects/croc-pmu}
-}
-```
-
----
-
-## Contributing
-
-Contributions welcome — bug reports, test cases, ports to other RISC-V SoCs.
-See [CONTRIBUTING.md](.github/CONTRIBUTING.md).
-
-If you are using this PMU in a commercial or research project, I would love
-to hear about it — open an issue or reach out directly.
-
----
-
 ## License
 
 This work is licensed under the **Apache License 2.0** — see [LICENSE](LICENSE).
