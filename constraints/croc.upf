@@ -1,0 +1,95 @@
+upf_version 2.1
+
+set_scope .
+
+
+#################################################
+# SUPPLIES
+#################################################
+
+create_supply_port VDD
+create_supply_port VDD_CPU
+create_supply_port GND
+
+create_supply_net VDD
+create_supply_net VDD_CPU
+create_supply_net GND
+create_supply_net VDD_CPU_SW -resolve parallel
+
+
+#################################################
+# SUPPLY SETS
+#################################################
+
+create_supply_set SS_AON -function {power VDD} -function {ground GND}
+create_supply_set SS_CPU -function {power VDD_CPU_SW} -function {ground GND}
+
+
+#################################################
+# POWER DOMAINS
+#################################################
+
+create_power_domain PD_AON -include_scope -supply {primary SS_AON}
+
+create_power_domain PD_CPU \
+    -elements {i_croc/i_core_wrap} \
+    -supply {primary SS_CPU}
+
+
+#################################################
+# POWER SWITCH
+#################################################
+
+create_power_switch CPU_SW \
+   -domain {PD_CPU} \
+   -input_supply_port  {vin VDD} \
+   -output_supply_port {vout VDD_CPU_SW} \
+   -control_port {EN i_croc/core_switch_en} \
+   -on_state  {CPU_ON  vin {EN}} \
+   -off_state {CPU_OFF {!EN}}
+
+map_power_switch CPU_SW -domain PD_CPU -lib_cells SWIVBHD1OHD
+
+
+#################################################
+# RETENTION
+#################################################
+
+set_retention CPU_RET \
+   -domain PD_CPU \
+   -elements {i_croc/i_core_wrap/*} \
+   -retention_supply_set SS_AON \
+   -save_signal    {i_croc/core_retain posedge} \
+   -restore_signal {i_croc/core_retain negedge}
+
+
+#################################################
+# ISOLATION
+#################################################
+
+set_isolation CPU_ISO \
+   -domain PD_AON \
+   -source SS_CPU \
+   -sink SS_AON \
+   -applies_to inputs \
+   -isolation_supply_set SS_AON \
+   -isolation_signal "i_croc/core_isolate" \
+   -isolation_sense high \
+   -clamp_value latch \
+   -location self
+
+map_isolation_cell CPU_ISO -domain PD_AON \
+   -lib_cells {ISOTHSHDX1 ISOTHSHDX2 ISOTHSHDX3 ISOTHSHDX4}
+
+
+#################################################
+# POWER STATES (SIMULATION)
+#################################################
+
+add_power_state SS_CPU \
+   -state {ON  -supply_expr {power == {FULL_ON}} -simstate NORMAL} \
+   -state {OFF -supply_expr {power == {OFF}}     -simstate CORRUPT}
+
+add_power_state SS_AON \
+   -state {ON -supply_expr {power == {FULL_ON}} -simstate NORMAL}
+
