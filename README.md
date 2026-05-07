@@ -186,7 +186,7 @@ opensta               # included with OpenROAD
 ### Clone and Setup
 
 ```bash
-git clone https://github.com/[your-handle]/croc-pmu.git
+git clone https://github.com/joboscanprojects/croc-pmu.git
 cd croc-pmu
 
 # Clone the base Croc SoC (required for full integration)
@@ -254,7 +254,7 @@ RISC-V SoC IP Designer & Embedded Linux Consultant
 Valencia, Spain · Available for remote consulting
 
 - GitHub: [@joboscanprojects](https://github.com/joboscanprojects)
-- LinkedIn: [linkedin.com/jobs](https://www.linkedin.com/jobs/)
+- LinkedIn: [linkedin.com/jobs](https://www.linkedin.com/in/jose-daniel-bosc%C3%A1-candel-6438ab3a9/)
 - Email: josedaniel@joboscan.es
 
 *Open to consulting contracts, IP licensing, and research collaboration
